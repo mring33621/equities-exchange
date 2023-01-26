@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{buyOrder.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="flex flex-wrap mb-6">
+                <h1 th:text="#{buyOrder.list.headline}" class="grow text-3xl md:text-4xl font-medium mb-2" />
+                <div>
+                    <a th:href="@{/buyOrders/add}" th:text="#{buyOrder.list.createNew}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" />
+                </div>
+            </div>
+            <div th:if="${buyOrders.empty}" th:text="#{buyOrder.list.empty}" />
+            <div th:if="${!buyOrders.empty}" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th th:text="#{buyOrder.id.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{buyOrder.symbol.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{buyOrder.numShares.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{buyOrder.limitPrice.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{buyOrder.active.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{buyOrder.buyOrderCustomer.label}" scope="col" class="text-left p-2" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-t-2 border-black">
+                        <tr th:each="buyOrder : ${buyOrders}" class="odd:bg-gray-100">
+                            <td th:text="${buyOrder.id}" class="p-2" />
+                            <td th:text="${buyOrder.symbol}" class="p-2" />
+                            <td th:text="${buyOrder.numShares}" class="p-2" />
+                            <td th:text="${buyOrder.limitPrice}" class="p-2" />
+                            <td th:text="${buyOrder.active}" class="p-2" />
+                            <td th:text="${buyOrder.buyOrderCustomer}" class="p-2" />
+                            <td class="p-2">
+                                <div class="float-right whitespace-nowrap">
+                                    <a th:href="@{/buyOrders/edit/{id}(id=${buyOrder.id})}" th:text="#{buyOrder.list.edit}" class="inline-block text-white bg-sky-500 hover:bg-sky-600 focus:ring-sky-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                    <form th:action="@{/buyOrders/delete/{id}(id=${buyOrder.id})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm inline">
+                                        <button th:text="#{buyOrder.list.delete}" type="submit" class="inline-block text-white bg-red-500 hover:bg-red-600 focus:ring-red-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

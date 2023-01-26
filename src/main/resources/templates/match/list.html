@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{match.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="flex flex-wrap mb-6">
+                <h1 th:text="#{match.list.headline}" class="grow text-3xl md:text-4xl font-medium mb-2" />
+                <div>
+                    <a th:href="@{/matches/add}" th:text="#{match.list.createNew}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" />
+                </div>
+            </div>
+            <div th:if="${matches.empty}" th:text="#{match.list.empty}" />
+            <div th:if="${!matches.empty}" class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th th:text="#{match.id.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.matchPrice.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.matchShares.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.sellerNotified.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.buyerNotified.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.matchBuyOrder.label}" scope="col" class="text-left p-2" />
+                            <th th:text="#{match.matchSellOrder.label}" scope="col" class="text-left p-2" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-t-2 border-black">
+                        <tr th:each="match : ${matches}" class="odd:bg-gray-100">
+                            <td th:text="${match.id}" class="p-2" />
+                            <td th:text="${match.matchPrice}" class="p-2" />
+                            <td th:text="${match.matchShares}" class="p-2" />
+                            <td th:text="${match.sellerNotified}" class="p-2" />
+                            <td th:text="${match.buyerNotified}" class="p-2" />
+                            <td th:text="${match.matchBuyOrder}" class="p-2" />
+                            <td th:text="${match.matchSellOrder}" class="p-2" />
+                            <td class="p-2">
+                                <div class="float-right whitespace-nowrap">
+                                    <a th:href="@{/matches/edit/{id}(id=${match.id})}" th:text="#{match.list.edit}" class="inline-block text-white bg-sky-500 hover:bg-sky-600 focus:ring-sky-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                    <form th:action="@{/matches/delete/{id}(id=${match.id})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm inline">
+                                        <button th:text="#{match.list.delete}" type="submit" class="inline-block text-white bg-red-500 hover:bg-red-600 focus:ring-red-200focus:ring-3 rounded px-2.5 py-1.5 text-sm" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
